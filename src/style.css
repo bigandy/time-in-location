@@ -1,3 +1,35 @@
+time-in-location {
+  &::part(suffix) {
+    margin-inline-start: 0.25rem;
+  }
+
+  &::part(label),
+  &::part(time) {
+    display: inline-block;
+  }
+
+  &::part(label) {
+    margin: 0;
+  }
+
+  &::part(label)::after {
+    content: " - ";
+  }
+}
+
+ul {
+  font-family: monospace;
+  padding-left: 2ch;
+  display: grid;
+  gap: inherit;
+}
+
+body {
+  display: grid;
+  gap: 1rem;
+  padding: 3rem;
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;

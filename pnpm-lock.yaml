@@ -216,6 +216,10 @@ overrides:
 importers:
 
   .:
+    dependencies:
+      temporal-polyfill-lite:
+        specifier: ^0.4.0
+        version: 0.4.0
     devDependencies:
       typescript:
         specifier: ~6.0.2
@@ -940,6 +944,9 @@ packages:
   std-env@4.1.0:
     resolution: {integrity: sha512-Rq7ybcX2RuC55r9oaPVEW7/xu3tj8u4GeBYHBWCychFtzMIr86A7e3PPEBPT37sHStKX3+TiX/Fr/ACmJLVlLQ==}
 
+  temporal-polyfill-lite@0.4.0:
+    resolution: {integrity: sha512-Bwx9kt1xDsMqOKsRuprWwMaO+pOLa24/k1+CAcbSeFQkURnoPZibg4shuTPEDsqiinCefHiiN2jf4bnOXwNbbQ==}
+
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -1518,6 +1525,8 @@ snapshots:
   stackback@0.0.2: {}
 
   std-env@4.1.0: {}
+
+  temporal-polyfill-lite@0.4.0: {}
 
   tinybench@2.9.0: {}
 

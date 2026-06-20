@@ -4,10 +4,49 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>viteplus-test</title>
+    <title>time-in-location Web Component</title>
+    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/update-time.ts"></script>
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <!-- <time-in-location tz="europe/london" time="12:00"></time-in-location> -->
+    <!-- <time-in-location-destination tz="america/new_york" hide-seconds time="12:10:40"></time-in-location-destination>
+    
+                                                                    <time-in-location-destination tz="america/new_york" time="12:10" twelve-hours></time-in-location-destination>
+    
+                                                                    <time-in-location-destination tz="america/new_york" time="12:10:00" twelve-hours hide-seconds></time-in-location-destination> -->
+
+    <h2>What time is 15:00 in san francisco in my current timezone?</h2>
+    <time-in-location tz="america/Los_Angeles" time="15:00"></time-in-location>
+
+    <!-- <select id="change-time">
+          <option value="01:00">01:00</option>
+          <option value="02:00">02:00</option>
+          <option value="03:00">03:00</option>
+          <option value="04:00">04:00</option>
+          <option value="05:00">05:00</option>
+          <option value="06:00">06:00</option>
+          <option value="07:00">07:00</option>
+          <option value="08:00">07:00</option>
+          <option value="09:00">09:00</option>
+          <option value="10:00">10:00</option>
+          <option value="11:00">11:00</option>
+          <option value="12:00">12:00</option>
+          <option value="13:00">13:00</option>
+          <option value="14:00">14:00</option>
+          <option value="15:00" selected>15:00</option>
+          <option value="16:00">16:00</option>
+          <option value="17:00">17:00</option>
+          <option value="18:00">18:00</option>
+          <option value="19:00">19:00</option>
+          <option value="20:00">20:00</option>
+          <option value="21:00">21:00</option>
+          <option value="22:00">22:00</option>
+          <option value="23:00">23:00</option>
+        </select> -->
+
+    <h2>All Time Zones</h2>
+    <button id="getAllTimeZones">Get All Timezones</button>
   </body>
 </html>

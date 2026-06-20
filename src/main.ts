@@ -1,60 +1,111 @@
-import "./style.css";
-import typescriptLogo from "./assets/typescript.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
-import { setupCounter } from "./counter.ts";
+class TimeInLocation extends HTMLElement {
+  #shadow: ShadowRoot;
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+  // Props
+  #tz?: string;
+  #hideSeconds?: boolean;
+  #isTwelveHours?: boolean;
+  #label?: string;
+  // end props.
 
-<div class="ticks"></div>
+  static get observedAttributes() {
+    return ["time"];
+  }
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+  get time() {
+    return this.getAttribute("time")?.split(":") ?? [];
+  }
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`;
+  constructor() {
+    super();
 
-setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
+    this.#shadow = this.attachShadow({ mode: "open" });
+  }
+
+  #padStartNumber(number: number) {
+    return `0${number}`.slice(-2);
+  }
+
+  async #getTemporal() {
+    const { Temporal } = await import("temporal-polyfill-lite");
+
+    window.Temporal = Temporal;
+  }
+
+  #theTime() {
+    // this.#now = Temporal.Now.plainTimeISO();
+    const computerTime = Temporal.Now.zonedDateTimeISO();
+    const { year, month, day, timeZoneId } = computerTime;
+
+    const [inputHour, inputMinute, inputSecond] = this.time;
+
+    if (!inputSecond) {
+      this.#hideSeconds = true;
+    }
+
+    const localTime = Temporal.PlainDateTime.from(
+      `${year}-${this.#padStartNumber(month)}-${day}T${inputHour}:${inputMinute}:${inputSecond ? this.#padStartNumber(+inputSecond) : "00"}`,
+    );
+    // targetTime is the desired time in the destination timezone. e.g. 15:00
+    const targetTime = localTime.toZonedDateTime(this.#tz!);
+    // converting the targetTime to the localTime i.e. 15:00 in america/los_angeles is 00:00 in europe/paris.
+    const { hour, minute, second } = targetTime.withTimeZone(timeZoneId);
+
+    const hours = this.#isTwelveHours ? hour % 12 : this.#padStartNumber(hour);
+
+    return {
+      hours,
+      minutes: this.#padStartNumber(minute),
+      seconds: inputSecond ? this.#padStartNumber(second) : undefined,
+    };
+  }
+
+  #printTime() {
+    const { hours, minutes, seconds } = this.#theTime();
+
+    let suffix = "";
+
+    // AHTODO. How to internationalise this, or pass in props for the am/pm??
+    if (this.#isTwelveHours) {
+      suffix = +hours > 12 ? "pm" : "am";
+    }
+
+    this.#shadow.innerHTML = `
+            ${this.#label && this.#label !== "" ? `<p part="label">${this.#label}</p>` : ""}
+			<time part="time"><span part="number">${hours}</span><span part="seperator">:</span><span part="number">${minutes}</span>${!this.#hideSeconds ? `<span part="seperator">:</span><span part="number">${seconds}</span>` : ""}</time>${suffix !== "" ? `<span part="suffix">${suffix}</span>` : ""}
+		`;
+  }
+
+  async connectedCallback() {
+    if (!window.Temporal) {
+      await this.#getTemporal();
+    }
+
+    this.#tz = this.getAttribute("tz") || undefined;
+    this.#isTwelveHours = this.hasAttribute("twelve-hours");
+    this.#hideSeconds = this.hasAttribute("hide-seconds");
+    this.#label = this.getAttribute("label") || undefined;
+
+    this.#printTime();
+  }
+
+  attributeChangedCallback(attributeName: string, oldValue: string, newValue: string) {
+    if (attributeName === "time" && oldValue) {
+      //   this.#printTime();
+      const [oldHour, oldMinute] = oldValue;
+      const [newHour, newMinute] = newValue;
+
+      if (this.#hideSeconds) {
+        if (oldHour !== newHour || oldMinute !== newMinute) {
+          this.#printTime();
+        }
+      } else if (oldValue !== newValue) {
+        this.#printTime();
+      }
+    }
+  }
+}
+
+customElements.define("time-in-location", TimeInLocation);
+
+export default TimeInLocation;

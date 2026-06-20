@@ -9,6 +9,9 @@
     "preview": "vp preview",
     "prepare": "vp config"
   },
+  "dependencies": {
+    "temporal-polyfill-lite": "^0.4.0"
+  },
   "devDependencies": {
     "typescript": "~6.0.2",
     "vite": "catalog:",
