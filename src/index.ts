@@ -1,1 +1,1 @@
-export * from "./time-in-destination";
+export * from "./time-in-location";

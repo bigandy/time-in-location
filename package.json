@@ -8,13 +8,13 @@
     "web-component"
   ],
   "bugs": {
-    "url": "https://github.com/bigandy/time-in-destination/issues"
+    "url": "https://github.com/bigandy/time-in-location/issues"
   },
   "license": "MIT",
   "author": "Andrew JD Hudson @bigandy (https://andrewhudson.dev/)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bigandy/time-in-destination.git"
+    "url": "git+https://github.com/bigandy/time-in-location.git"
   },
   "files": [
     "dist"
