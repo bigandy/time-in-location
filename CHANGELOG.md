@@ -1,5 +1,11 @@
 # @bigandy/time-in-location
 
+## 1.0.2
+
+### Patch Changes
+
+- 6c36f58: update references to old name
+
 ## 1.0.1
 
 ### Patch Changes

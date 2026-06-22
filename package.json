@@ -1,6 +1,6 @@
 {
   "name": "@bigandy/time-in-location",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A web component that shows the time in a time zone",
   "keywords": [
     "Temporal",
