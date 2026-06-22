@@ -1,5 +1,11 @@
 # @bigandy/time-in-location
 
+## 1.0.4
+
+### Patch Changes
+
+- 5c63973: update changeset config
+
 ## 1.0.3
 
 ### Patch Changes

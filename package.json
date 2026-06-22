@@ -1,6 +1,6 @@
 {
   "name": "@bigandy/time-in-location",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A web component that shows a desired time from a different time zone in your current timezone time.",
   "keywords": [
     "Temporal",
