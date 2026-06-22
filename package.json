@@ -1,7 +1,7 @@
 {
   "name": "@bigandy/time-in-location",
   "version": "1.0.2",
-  "description": "A web component that shows the time in a time zone",
+  "description": "A web component that shows a desired time from a different time zone in your current timezone time.",
   "keywords": [
     "Temporal",
     "time-zone",
@@ -42,7 +42,8 @@
     "check-exports": "attw --pack .",
     "local-release": "changeset version && changeset publish",
     "release": "npm run ci && changeset publish",
-    "ci": "npm run build && npm run check-exports"
+    "ci": "npm run build && npm run check-exports",
+    "prepublishOnly": "npm run ci"
   },
   "dependencies": {
     "temporal-polyfill-lite": "0.4.0"
