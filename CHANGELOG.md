@@ -1,5 +1,11 @@
 # @bigandy/time-in-location
 
+## 1.0.3
+
+### Patch Changes
+
+- ab0961c: update readme
+
 ## 1.0.2
 
 ### Patch Changes
