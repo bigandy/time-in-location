@@ -41,7 +41,8 @@
     "check-lint": "tsc",
     "check-exports": "attw --pack .",
     "local-release": "changeset version && changeset publish",
-    "release": "pnpm run ci && changeset publish"
+    "release": "npm run ci && changeset publish",
+    "ci": "npm run build && npm run check-exports"
   },
   "dependencies": {
     "temporal-polyfill-lite": "0.4.0"
