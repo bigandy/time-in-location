@@ -46,12 +46,12 @@
     "prepublishOnly": "npm run ci"
   },
   "dependencies": {
-    "temporal-polyfill-lite": "0.4.0"
+    "temporal-polyfill-lite": "0.4.1"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "0.18.3",
+    "@arethetypeswrong/cli": "0.18.4",
     "@changesets/cli": "2.31.0",
-    "tsdown": "0.22.2",
+    "tsdown": "0.22.3",
     "typescript": "6.0.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
     "vite-plus": "latest"
